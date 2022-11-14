@@ -6,73 +6,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lattice Explorer</title>
     <link rel="stylesheet" href="styles/styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+    <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+    <script src="https://preview.babylonjs.com/ammo.js"></script>
+    <script src="https://preview.babylonjs.com/cannon.js"></script>
+    <script src="https://preview.babylonjs.com/Oimo.js"></script>
+    <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+    <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+    <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+    <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+    <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+    <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
   </head>
   <body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+      var canvas = document.getElementById("renderCanvas");
 
-    
-    <!-- <section id="main_section">
-      <div id="iframe_div" class="subpanel">
-          <div id="iframe_header" class="subpanel_content_header" style="font-weight: bold">3D Model</div>
-          <div id="sliderPanel" class="subpanel">
-              <table id="slider_device_table">
-                  <tr>
-                      <td id="slider_device-2" class="slider_device_name">-</td>
-                      <td id="slider_device-1" class="slider_device_name">-</td>
-                      <td id="slider_device0" class="slider_device_name">-</td>
-                      <td id="slider_device1" class="slider_device_name">-</td>
-                      <td id="slider_device2" class="slider_device_name">-</td>
-                  </tr>
-              </table>
-              <div class="slider">
-                  <input id="camera_slider" type="range"/>
-              </div>
-          </div>
-          <iframe id="my_iframe" src="Explorer.html"></iframe>
-      </div>
-      <div id="panel">
-          <div id="lattice_show" class="subpanel">
-              <div id="lattice_header" class="subpanel_header" >Camera control:</div>
-              <div class="subpanel_content_header">Go to:</div>
-              <div id="go_to" class="subpanel_content">
-                  <button id="hsr_camera" class="camera_button">HSR</button>
-                  <button id="cooler_camera" class="camera_button">Cooler</button>
-                  <button id="esr_camera" class="camera_button">ESR</button>
-                  <button id="rcs_camera" class="camera_button">RCS</button>
-              </div>
-              <div class="subpanel_content_header">Navigation:</div>
-              <div id="navigation" class="subpanel_content">
-                  <button id="free_camera" class="camera_button">Free navigation</button>
-                  <button id="focused_camera" class="camera_button">Focused camera</button>
-                  <button id="topView_camera" class="camera_button">Top view</button>
-                  <button id="firstperson_camera" class="camera_button">First Person View</button>
-              </div>
-          </div>
-          <div id="element_show" class="subpanel">
-              <div class="subpanel_header">Show/Hide:</div>
-              <div class="subpanel_content_header">Lattices:</div>
-              <div id="showHide_content" class="subpanel_content">
-                  <input type="checkbox" id="hsr_show"  value="hsr" checked><label for="hsr_show" style="background: black"> HSR </label>
-                  <input type="checkbox" id="cooler_show" value="cooler" checked><label for="cooler_show"> Cooler </label>
-                  <input type="checkbox" id="esr_show" value="esr" checked><label for="esr_show"> ESR </label>
-                  <input type="checkbox" id="rcs_show" value="rcs" checked><label for="rcs_show"> RCS </label>
-              </div>
-              <div class="subpanel_content_header">Devices:</div>
-                  <table style="width:100%" class="subpanel_content">
-                      <tr style="font-weight: bold;"><td >Name</td><td>Model</td><td>Label</td></tr>
-                      <tr id="Dipole_row"><td>Dipoles</td><td><input type="checkbox" id="Dipole_show" value="Dipole" checked></td><td><input type="checkbox" id="Dipole_labelShow" value="Dipole" checked></td></tr>
-                      <tr id="Quadrupole_row"><td>Quadrupoles</td><td><input type="checkbox" id="Quadrupole_show" value="Quadrupole" checked></td><td><input type="checkbox" id="Quadrupole_labelShow" value="DipoleLabel" checked></td></tr>
-                      <tr id="Sextupole_row"><td>Sextupoles</td><td><input type="checkbox" id="Sextupole_show" value="Sextupole" checked></td><td><input type="checkbox" id="Sextupole_labelShow" value="QuadrupoleLabel" checked></td></tr>
-                      <tr id="Kicker_row"><td>Kickers</td><td><input type="checkbox" id="Kicker_show" value="Kicker" checked></td><td><input type="checkbox" id="Kicker_labelShow" value="KickerLabel" checked></td></tr>
-                      <tr id="Instrument_row"><td>Instruments</td><td><input type="checkbox" id="Instrument_show" value="Instrument" checked></td><td><input type="checkbox" id="Instrument_labelShow" value="InstrumentLabel" checked></td></tr>
-                      <tr id="RFcavity_row"><td>RF Cavities</td><td><input type="checkbox" id="RFcavity_show" value="RFcavity" checked></td><td><input type="checkbox" id="RFcavity_labelShow" value="RFcavityLabel" checked></td></tr>
-                      <tr id="Drift_row"><td>Drift</td><td><input type="checkbox" id="Drift_show" value="Drift" checked></td><td><input type="checkbox" id="Drift_labelShow" value="DriftLabel" checked></td></tr>
-                      <tr id="Marker_row"><td>Other Markers</td><td><input type="checkbox" id="Marker_show" value="Marker" checked></td><td><input type="checkbox" id="Marker_labelShow" value="MarkerLabel" checked></td></tr>
-                  </table>
-                  <hr>
-              </div>
-              
-          </div>
-      </div>
-  </section> -->
+      var startRenderLoop = function (engine, canvas) {
+        engine.runRenderLoop(function () {
+          if (sceneToRender && sceneToRender.activeCamera) {
+            sceneToRender.render();
+          }
+        });
+      };
+
+      var engine = null;
+      var scene = null;
+      var sceneToRender = null;
+      var createDefaultEngine = function () {
+        return new BABYLON.Engine(canvas, true, {
+          preserveDrawingBuffer: true,
+          stencil: true,
+          disableWebGL2Support: false,
+        });
+      };
+      const createScene = function () {
+        const scene = new BABYLON.Scene(engine);
+
+        scene.clearColor = BABYLON.Color3.White();
+        scene.gravity = new BABYLON.Vector3(0, -0.15, 0);
+
+        const camera = new BABYLON.UniversalCamera(
+          "camera",
+          new BABYLON.Vector3(0, 2, -20),
+          scene
+        );
+
+        camera.attachControl(canvas, true);
+        camera.setTarget(new BABYLON.Vector3(15, 2, 0));
+
+        camera.applyGravity = true;
+        camera.ellipsoid = new BABYLON.Vector3(2, 1, 2);
+        // Enable Collisions
+        scene.collisionsEnabled = true;
+        camera.checkCollisions = true;
+        camera.inertia = 0.55;
+        // camera.speed = 0.8;
+        //Controls  WASD
+        camera.keysUp.push(87);
+        camera.keysDown.push(83);
+        camera.keysRight.push(68);
+        camera.keysLeft.push(65);
+
+        
+        const light = new BABYLON.HemisphericLight(
+          "light",
+          new BABYLON.Vector3(1, 1, 0)
+        );
+
+        BABYLON.SceneLoader.ImportMesh(
+          "",
+          "./models/",
+          "cooler.babylon",
+          scene,
+          function (importedMeshes) {
+            for (i in importedMeshes) {
+              importedMeshes[i].ispickable = true;
+              console.log(i);
+            }
+          }
+        );
+
+        BABYLON.SceneLoader.ImportMesh(
+          "",
+          "./models/",
+          "enclosureWalls.babylon",
+          scene,
+          function (importedMeshes) {
+            for (i in importedMeshes) {
+              importedMeshes[i].checkCollisions = true;
+              console.log(i);
+            }
+          }
+        );
+
+        var ground = BABYLON.MeshBuilder.CreateGround(
+          "ground",
+          { width: 700, height: 200 },
+          scene
+        );
+        ground.checkCollisions = true;
+
+      
+
+        return scene;
+      };
+
+      window.initFunction = async function () {
+        var asyncEngineCreation = async function () {
+          try {
+            return createDefaultEngine();
+          } catch (e) {
+            console.log(
+              "the available createEngine function failed. Creating the default engine instead"
+            );
+            return createDefaultEngine();
+          }
+        };
+
+        window.engine = await asyncEngineCreation();
+        if (!engine) throw "engine should not be null.";
+        startRenderLoop(engine, canvas);
+        window.scene = createScene();
+      };
+      initFunction().then(() => {
+        sceneToRender = scene;
+      });
+
+      // Resize
+      window.addEventListener("resize", function () {
+        engine.resize();
+      });
+    </script>
   </body>
 </html>

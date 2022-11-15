@@ -180,9 +180,7 @@
                 BABYLON.ActionManager.OnPointerOverTrigger,
                 function (ev) {
                   let inst = ev.source;
-                  text1.text = "Item Is: " + inst.item;
-                  // inst.position.yOrig = inst.position.y;
-                  // inst.position.y = inst.position.yOrig+.1;
+                  text1.text = "Element Is: " + inst.item;
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(2, 2, 2);
                 }
@@ -193,7 +191,8 @@
                 BABYLON.ActionManager.OnPointerOutTrigger,
                 function (ev) {
                   let inst = ev.source;
-                  text1.text = "WASD to walk \n Hold Left mouse button to look around";
+                  text1.text =
+                    "WASD to walk \n Hold Left mouse button to look around";
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(1, 1, 1);
                 }
@@ -214,7 +213,7 @@
               newInstance.position.y = lattice[index][1] + 1.5;
               newInstance.position.z = lattice[index][2];
               newInstance.actionManager = actionManager;
-              newInstance.item = lattice[index][3] + "-" +index;
+              newInstance.item = lattice[index][3] + "-" + index;
               // newInstance.mesh = ;
             }
           }

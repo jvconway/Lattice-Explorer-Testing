@@ -21,7 +21,8 @@
     <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
     <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
-    <script src="./scripts/papaparse.js"></script>
+    <!-- <script src="./scripts/papaparse.js"></script> -->
+    <script src="./lattice.js"></script>
 
     <script></script>
   </head>
@@ -29,6 +30,7 @@
     <canvas id="renderCanvas"></canvas>
 
     <script>
+      
       var canvas = document.getElementById("renderCanvas");
 
       var startRenderLoop = function (engine, canvas) {
@@ -52,17 +54,17 @@
       const createScene = function () {
         const scene = new BABYLON.Scene(engine);
 
-        scene.clearColor = BABYLON.Color3.White();
+        scene.clearColor = BABYLON.Color3.Teal();
         scene.gravity = new BABYLON.Vector3(0, -0.15, 0);
 
         const camera = new BABYLON.UniversalCamera(
           "camera",
-          new BABYLON.Vector3(-5, 2, -10),
+          new BABYLON.Vector3(242, 2, -50),
           scene
         );
 
         camera.attachControl(canvas, true);
-        camera.setTarget(new BABYLON.Vector3(0, 2, 0));
+        camera.setTarget(new BABYLON.Vector3(0, 2, 1));
 
         camera.applyGravity = true;
         camera.ellipsoid = new BABYLON.Vector3(2, 1, 2);
@@ -89,7 +91,7 @@
           scene,
           function (importedMeshes) {
             for (i in importedMeshes) {
-              importedMeshes[i].checkCollisions = true;
+              importedMeshes[i].checkCollisions = false;
             }
           }
         );
@@ -108,65 +110,36 @@
 
         var hl = new BABYLON.HighlightLayer("hl1", scene);
 
-        var lattice = [
-          [46.2664361, -1.91748387e-17, -3.07308667, "TRIP01.QUA03"],
-          [44.7464361, -1.94235773e-17, -3.07307986, "TRIP01.QUA03"],
-          [43.2264361, -1.9672316e-17, -3.07307305, "TRIP01.QUA03"],
-          [41.7064361, -1.99210547e-17, -3.07306624, "TRIP01.QUA03"],
-          [40.1864361, -2.01697933e-17, -3.07305942, "TRIP01.QUA03"],
-          [38.6664361, -2.0418532e-17, -3.07305261, "TRIP01.QUA03"],
-          [37.1464361, -2.06672707e-17, -3.0730458, "TRIP01.QUA03"],
-          [35.6264361, -2.09160093e-17, -3.07303899, "TRIP01.QUA03"],
-          [34.1064361, -2.1164748e-17, -3.07303218, "TRIP01.QUA03"],
-          [32.5864361, -2.14134866e-17, -3.07302537, "TRIP01.QUA03"],
-          [31.0664361, -2.16622253e-17, -3.07301856, "TRIP01.QUA03"],
-          [29.5464361, -2.1910964e-17, -3.07301174, "TRIP01.QUA03"],
-          [28.0264361, -2.21597026e-17, -3.07300493, "TRIP01.QUA03"],
-          [26.5064361, -2.24084413e-17, -3.07299812, "TRIP01.QUA03"],
-          [24.9864361, -2.265718e-17, -3.07299131, "TRIP01.QUA03"],
-          [23.4664361, -2.29059186e-17, -3.0729845, "TRIP01.QUA03"],
-          [21.9464361, -2.31546573e-17, -3.07297769, "TRIP01.QUA03"],
-          [20.4264361, -2.34033959e-17, -3.07297088, "TRIP01.QUA03"],
-          [18.9064361, -2.36521346e-17, -3.07296406, "TRIP01.QUA03"],
-          [17.3864361, -2.39008733e-17, -3.07295725, "TRIP01.QUA03"],
-          [15.8664361, -2.41496119e-17, -3.07295044, "TRIP01.QUA03"],
-          [14.3464361, -2.43983506e-17, -3.07294363, "TRIP01.QUA03"],
-          [12.8264361, -2.46470893e-17, -3.07293682, "TRIP01.QUA03"],
-          [11.3064361, -2.48958279e-17, -3.07293001, "TRIP01.QUA03"],
-          [9.7864361, -2.51445666e-17, -3.0729232, "TRIP01.QUA03"],
-          [-4.0438515, -2.73334402e-17, -3.07286122, "TRIP01.QUA03"],
-          [-5.5638515, -2.75647751e-17, -3.07285441, "TRIP01.QUA03"],
-          [-7.0838515, -2.77961099e-17, -3.0728476, "TRIP01.QUA03"],
-          [-8.6038515, -2.80274448e-17, -3.07284079, "TRIP01.QUA03"],
-          [-10.1238515, -2.82587796e-17, -3.07283397, "TRIP01.QUA03"],
-          [-11.6438515, -2.84901145e-17, -3.07282716, "TRIP01.QUA03"],
-          [-13.1638515, -2.87214493e-17, -3.07282035, "TRIP01.QUA03"],
-          [-14.6838515, -2.89527842e-17, -3.07281354, "TRIP01.QUA03"],
-          [-16.2038515, -2.9184119e-17, -3.07280673, "TRIP01.QUA03"],
-          [-17.7238515, -2.94154539e-17, -3.07279992, "TRIP01.QUA03"],
-          [-19.2438515, -2.96467887e-17, -3.07279311, "TRIP01.QUA03"],
-          [-20.7638515, -2.98781236e-17, -3.0727863, "TRIP01.QUA03"],
-          [-22.2838515, -3.01094584e-17, -3.07277948, "TRIP01.QUA03"],
-          [-23.8038515, -3.03407933e-17, -3.07277267, "TRIP01.QUA03"],
-          [-25.3238515, -3.05721281e-17, -3.07276586, "TRIP01.QUA03"],
-          [-26.8438515, -3.0803463e-17, -3.07275905, "TRIP01.QUA03"],
-          [-28.3638515, -3.10347978e-17, -3.07275224, "TRIP01.QUA03"],
-          [-29.8838515, -3.12661327e-17, -3.07274543, "TRIP01.QUA03"],
-          [-31.4038515, -3.14974676e-17, -3.07273862, "TRIP01.QUA03"],
-          [-32.9238515, -3.17288024e-17, -3.0727318, "TRIP01.QUA03"],
-          [-34.4438515, -3.19601373e-17, -3.07272499, "TRIP01.QUA03"],
-          [-35.9638515, -3.21914721e-17, -3.07271818, "TRIP01.QUA03"],
-          [-37.4838515, -3.2422807e-17, -3.07271137, "TRIP01.QUA03"],
-          [-39.0038515, -3.26541418e-17, -3.07270456, "TRIP01.QUA03"],
-          [-40.5238515, -3.28854767e-17, -3.07269775, "TRIP01.QUA03"],
-          [-42.0438515, -3.31168115e-17, -3.07269094, "TRIP01.QUA03"],
-          [9.0264361, -2.52689359e-17, -3.07291979, "C3.QUA05"],
-        ];
+        elementLoader("Quadrupole", lattice, scene);
+        elementLoader("Sbend", lattice, scene);
+        elementLoader("Drift",lattice,scene);
+        elementLoader("Pipe",lattice,scene);
+        elementLoader("Lcavity",lattice,scene);
+        elementLoader("RFcavity",lattice,scene);
+        elementLoader("Solenoid",lattice,scene);
+        elementLoader("E_Gun",lattice,scene);
 
+
+
+
+        var advancedTexture2 =
+          BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+        text1 = new BABYLON.GUI.TextBlock();
+        text1.text = "WASD to walk \n Hold Left mouse button to look around";
+        text1.color = "red";
+        text1.left = "0%";
+        text1.top = "-43%%";
+        advancedTexture2.addControl(text1);
+
+        return scene;
+      };
+
+      function elementLoader(type, lattice, scene) {
         BABYLON.SceneLoader.ImportMesh(
           "",
           "./models/",
-          "Quad.babylon",
+          type + ".babylon",
           scene,
           function (newMeshes) {
             var mesh = newMeshes[0];
@@ -182,7 +155,7 @@
                   let inst = ev.source;
                   text1.text = "Element Is: " + inst.item;
                   if (!inst.isMarked)
-                    inst.instancedBuffers.color = new BABYLON.Color4(2, 2, 2);
+                    inst.instancedBuffers.color = new BABYLON.Color4(3, 3, 3);
                 }
               )
             );
@@ -208,29 +181,24 @@
             );
 
             for (var index = 0; index < lattice.length; index++) {
-              var newInstance = mesh.createInstance("i" + index);
-              newInstance.position.x = lattice[index][0];
-              newInstance.position.y = lattice[index][1] + 1.5;
-              newInstance.position.z = lattice[index][2];
-              newInstance.actionManager = actionManager;
-              newInstance.item = lattice[index][3] + "-" + index;
-              // newInstance.mesh = ;
+              if (lattice[index][6] == type) {
+                var newInstance = mesh.createInstance("i" + index);
+
+                newInstance.position.x = lattice[index][2];
+                newInstance.position.y = lattice[index][1] + 1.27;
+                newInstance.position.z = lattice[index][0];
+                newInstance.rotation.x = lattice[index][5];
+                newInstance.rotation.y = -lattice[index][3];
+                newInstance.rotation.z = lattice[index][4];
+                newInstance.scaling.x = lattice[index][7];
+                newInstance.actionManager = actionManager;
+                newInstance.item = lattice[index][8] + "-" + index;
+                newInstance.freezeWorldMatrix();
+              }
             }
           }
         );
-
-        var advancedTexture2 =
-          BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-
-        text1 = new BABYLON.GUI.TextBlock();
-        text1.text = "WASD to walk \n Hold Left mouse button to look around";
-        text1.color = "red";
-        text1.left = "0%";
-        text1.top = "-43%%";
-        advancedTexture2.addControl(text1);
-
-        return scene;
-      };
+      }
 
       window.initFunction = async function () {
         var asyncEngineCreation = async function () {

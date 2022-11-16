@@ -30,7 +30,6 @@
     <canvas id="renderCanvas"></canvas>
 
     <script>
-      
       var canvas = document.getElementById("renderCanvas");
 
       var startRenderLoop = function (engine, canvas) {
@@ -112,15 +111,12 @@
 
         elementLoader("Quadrupole", lattice, scene);
         elementLoader("Sbend", lattice, scene);
-        elementLoader("Drift",lattice,scene);
-        elementLoader("Pipe",lattice,scene);
-        elementLoader("Lcavity",lattice,scene);
-        elementLoader("RFcavity",lattice,scene);
-        elementLoader("Solenoid",lattice,scene);
-        elementLoader("E_Gun",lattice,scene);
-
-
-
+        elementLoader("Drift", lattice, scene);
+        elementLoader("Pipe", lattice, scene);
+        elementLoader("Lcavity", lattice, scene);
+        elementLoader("RFcavity", lattice, scene);
+        elementLoader("Solenoid", lattice, scene);
+        elementLoader("E_Gun", lattice, scene);
 
         var advancedTexture2 =
           BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
@@ -192,7 +188,7 @@
                 newInstance.rotation.z = lattice[index][4];
                 newInstance.scaling.x = lattice[index][7];
                 newInstance.actionManager = actionManager;
-                newInstance.item = lattice[index][8] + "-" + index;
+                newInstance.item = lattice[index][8];
                 newInstance.freezeWorldMatrix();
               }
             }

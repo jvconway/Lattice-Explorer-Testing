@@ -83,21 +83,36 @@
           new BABYLON.Vector3(1, 1, 0)
         );
 
-        var walls = BABYLON.SceneLoader.ImportMesh(
+        xshift = 2.5;
+        zshift = -.858;
+
+        BABYLON.SceneLoader.ImportMesh(
           "",
           "./models/",
           "enclosureWalls.babylon",
           scene,
-          function (importedMeshes) {
-            for (i in importedMeshes) {
-              importedMeshes[i].checkCollisions = false;
-            }
+          function (newMeshes) {
+            var mesh = newMeshes[0];
+            mesh.position.x = xshift;
+            mesh.position.z = zshift;
+            mesh.freezeWorldMatrix();
           }
         );
-        walls.isPickable = true;
-        const wallMaterial = new BABYLON.StandardMaterial("material", scene);
-        wallMaterial.diffuseColor = BABYLON.Color3.Green();
-        walls.material = wallMaterial;
+
+
+        BABYLON.SceneLoader.ImportMesh(
+          "",
+          "./models/",
+          "HSR.babylon",
+          scene,
+          function (newMeshes) {
+            var mesh = newMeshes[0];
+            mesh.position.x = xshift;
+            mesh.position.z = zshift;
+            mesh.freezeWorldMatrix();
+          }
+        );
+
 
         var ground = BABYLON.MeshBuilder.CreateGround(
           "ground",

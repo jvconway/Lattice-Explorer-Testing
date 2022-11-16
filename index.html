@@ -157,7 +157,7 @@
         grid.addControl(rect, 2, 2);
 
         text1 = new BABYLON.GUI.TextBlock();
-        text1.text = "WASD to walk \n Hold Left mouse button to look around";
+        text1.text = "";
         text1.color = "red";
         text1.left = "0%";
         text1.top = "-43%%";
@@ -280,7 +280,7 @@
                 function (ev) {
                   let inst = ev.source;
                   text1.text =
-                    "WASD to walk \n Hold Left mouse button to look around";
+                    "";
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(1, 1, 1);
                 }

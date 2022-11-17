@@ -53,7 +53,7 @@
       const createScene = function () {
         const scene = new BABYLON.Scene(engine);
 
-        scene.clearColor = BABYLON.Color3.Black();
+        scene.clearColor = BABYLON.Color3.White();
         scene.gravity = new BABYLON.Vector3(0, -0.15, 0);
 
         const camera = new BABYLON.UniversalCamera(
@@ -78,6 +78,8 @@
         camera.keysRight.push(68);
         camera.keysLeft.push(65);
 
+        // cameraTarget = new BABYLON.Vector3(0);
+
         const light = new BABYLON.HemisphericLight(
           "light",
           new BABYLON.Vector3(1, 1, 0)
@@ -99,6 +101,13 @@
             const wallMat = new BABYLON.StandardMaterial("wallMat");
             wallMat.diffuseColor = new BABYLON.Color3.White();
             mesh.material = wallMat;
+            button1.onPointerUpObservable.add(function () {
+              if (mesh.isVisible) {
+                mesh.isVisible = false;
+              } else {
+                mesh.isVisible = true;
+              }
+            });
           }
         );
 
@@ -135,25 +144,13 @@
         elementLoader("Solenoid", lattice, scene);
         elementLoader("E_Gun", lattice, scene);
 
+        
+
+        
+
         //  GUI
         var advancedTexture =
           BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-
-        var grid = new BABYLON.GUI.Grid();
-        advancedTexture.addControl(grid);
-
-        grid.addColumnDefinition(225, true);
-        grid.addColumnDefinition(225, true);
-        grid.addColumnDefinition(1);
-        grid.addColumnDefinition(250, true);
-        grid.addColumnDefinition(250, true);
-        grid.addRowDefinition(200, true);
-        grid.addRowDefinition(1);
-        grid.addRowDefinition(200, true);
-
-        var rect = new BABYLON.GUI.Rectangle();
-        rect.thickness = 0;
-        grid.addControl(rect, 0, 2);
 
         text1 = new BABYLON.GUI.TextBlock();
         text1.text = "";
@@ -164,96 +161,132 @@
         text1.fontWeight = "bold";
         advancedTexture.addControl(text1);
 
-        var buttonPanel1 = new BABYLON.GUI.StackPanel();
-        buttonPanel1.width = "250px";
-        grid.addControl(buttonPanel1, 0, 0);
-
-        //View Button Header
-        var buttonHeader = new BABYLON.GUI.TextBlock();
-        buttonHeader.text = "View Mode";
-        buttonHeader.height = "40px";
-        buttonHeader.color = "red";
-        buttonPanel1.addControl(buttonHeader);
-
-        //BUTTON 1
         var button1 = BABYLON.GUI.Button.CreateSimpleButton(
           "but1",
-          "First Person View"
+          "Walls On/Off"
         );
-        button1.width = "200px";
+        button1.width = "150px";
         button1.height = "40px";
-        button1.paddingTop = "5px";
         button1.color = "white";
         button1.cornerRadius = 20;
         button1.background = "green";
-        buttonPanel1.addControl(button1);
+        button1.left = "-40%";
+        button1.verticalAlignment = 0;
+        button1.top = "20";
+        advancedTexture.addControl(button1);
 
-        //Button 2
         var button2 = BABYLON.GUI.Button.CreateSimpleButton(
           "but2",
-          "Fly Around"
+          "Camera: FPV"
         );
-        button2.width = "200px";
+        button2.width = "150px";
         button2.height = "40px";
-        button2.paddingTop = "5px";
         button2.color = "white";
         button2.cornerRadius = 20;
-        button2.background = "red";
-        buttonPanel1.addControl(button2);
+        button2.background = "blue";
+        button2.left = "-40%";
+        button2.verticalAlignment = 0;
+        button2.top = "80";
+        advancedTexture.addControl(button2);
 
-        //Button 3
+        button2.onPointerUpObservable.add(function () {
+          let oldCamera = scene.cameras[0];
+          let fpvCamera = new BABYLON.UniversalCamera(
+            "fpvCamera",
+            oldCamera.position,
+            scene
+          );
+          oldCamera.dispose();
+
+          fpvCamera.attachControl(canvas, true);
+          fpvCamera.applyGravity = true;
+          fpvCamera.ellipsoid = new BABYLON.Vector3(2, 1, 2);
+          // Enable Collisions
+          scene.collisionsEnabled = true;
+          fpvCamera.checkCollisions = true;
+          fpvCamera.inertia = 0.55;
+          // camera.speed = 0.8;
+          //Controls  WASD
+          fpvCamera.keysUp.push(87);
+          fpvCamera.keysDown.push(83);
+          fpvCamera.keysRight.push(68);
+          fpvCamera.keysLeft.push(65);
+        });
+
         var button3 = BABYLON.GUI.Button.CreateSimpleButton(
-          "but2",
-          "Slider Focused"
+          "but3",
+          "Camera: Free Fly"
         );
-        button3.width = "200px";
+        button3.width = "150px";
         button3.height = "40px";
-        button3.paddingTop = "5px";
         button3.color = "white";
         button3.cornerRadius = 20;
         button3.background = "blue";
-        buttonPanel1.addControl(button3);
+        button3.left = "-40%";
+        button3.verticalAlignment = 0;
+        button3.top = "140";
+        advancedTexture.addControl(button3);
 
-        var buttonPanel2 = new BABYLON.GUI.StackPanel();
-        buttonPanel2.width = "250px";
-        grid.addControl(buttonPanel2, 0, 1);
-
-        //Show Hide Button Header
-        var shHeader = new BABYLON.GUI.TextBlock();
-        shHeader.text = "Show/Hide";
-        shHeader.height = "60px";
-        shHeader.color = "red";
-        buttonPanel2.addControl(shHeader);
-
+        button3.onPointerUpObservable.add(function () {
+          let oldCamera = scene.cameras[0];
+          let flyCamera = new BABYLON.UniversalCamera(
+            "flyCamera",
+            oldCamera.position,
+            scene
+          );
+          oldCamera.dispose();
+          flyCamera.attachControl(canvas, true);
+          //Controls  WASD
+          flyCamera.keysUp.push(87);
+          flyCamera.keysDown.push(83);
+          flyCamera.keysRight.push(68);
+          flyCamera.keysLeft.push(65);
+        });
 
         
 
-        // SLIDER
-        var sliderPanel = new BABYLON.GUI.StackPanel();
-        sliderPanel.width = "500px";
-        grid.addControl(sliderPanel, 2, 2);
+        // var button4 = BABYLON.GUI.Button.CreateSimpleButton(
+        //   "but4",
+        //   "Camera: Slider Focused"
+        // );
+        // button4.width = "150px";
+        // button4.height = "40px";
+        // button4.color = "white";
+        // button4.cornerRadius = 20;
+        // button4.background = "blue";
+        // button4.left = "-40%";
+        // button4.verticalAlignment = 0;
+        // button4.top = "200";
+        // advancedTexture.addControl(button4);
 
-        var header = new BABYLON.GUI.TextBlock();
-        header.text = "Y-rotation: 0 deg";
-        header.height = "30px";
-        header.color = "black";
-        sliderPanel.addControl(header);
+        // button4.onPointerUpObservable.add(function () {
+        //   let oldCamera = scene.cameras[0];
+        //   let focusedCamera = new BABYLON.FollowCamera(
+        //     "focusedCamera",
+        //     new BABYLON.Vector3(242, 2, -50),
+        //     scene
+        //   );
+        //   oldCamera.dispose();
+        //   focusedCamera.attachControl(canvas, true);
+        //   focusedCamera.target = targetElement;
+        // });
 
-        var slider = new BABYLON.GUI.Slider();
-        slider.minimum = 0;
-        slider.maximum = 2 * Math.PI;
-        slider.isThumbClamped = true;
-        slider.height = "20px";
-        slider.width = "500px";
-
-        slider.color = "red";
-        slider.onValueChangedObservable.add(function (value) {
-          header.text =
-            "Y-rotation: " + (BABYLON.Tools.ToDegrees(value) | 0) + " deg";
-        });
-
-        slider.value = Math.PI + Math.random() * Math.PI;
-        sliderPanel.addControl(slider);
+        // var slider = new BABYLON.GUI.Slider();
+        // slider.minimum = 1;
+        // slider.maximum = 100;
+        // slider.value = 0;
+        // slider.height = "20px";
+        // slider.width = "600px";
+        // slider.verticalAlignment = 1;
+        // slider.top = "-50";
+        // // slider.onValueChangedObservable.add(function (value) {
+        // //   header.text =
+        // //     "Y-rotation: " + (BABYLON.Tools.ToDegrees(value) | 0) + " deg";
+        // //   if (skull) {
+        // //     skull.rotation.y = value;
+        // //   }
+        // // });
+        // advancedTexture.addControl(slider);
 
         return scene;
       };

@@ -98,14 +98,17 @@
             mesh.position.x = xshift;
             mesh.position.z = zshift;
             mesh.freezeWorldMatrix();
+            mesh.checkCollisions = true;
             const wallMat = new BABYLON.StandardMaterial("wallMat");
             wallMat.diffuseColor = new BABYLON.Color3.White();
             mesh.material = wallMat;
             button1.onPointerUpObservable.add(function () {
               if (mesh.isVisible) {
                 mesh.isVisible = false;
+                mesh.checkCollisions = false;
               } else {
                 mesh.isVisible = true;
+                mesh.checkCollisions = true;
               }
             });
           }

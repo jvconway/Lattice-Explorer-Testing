@@ -53,7 +53,7 @@
       const createScene = function () {
         const scene = new BABYLON.Scene(engine);
 
-        scene.clearColor = BABYLON.Color3.Teal();
+        scene.clearColor = BABYLON.Color3.Black();
         scene.gravity = new BABYLON.Vector3(0, -0.15, 0);
 
         const camera = new BABYLON.UniversalCamera(
@@ -96,6 +96,9 @@
             mesh.position.x = xshift;
             mesh.position.z = zshift;
             mesh.freezeWorldMatrix();
+            const wallMat = new BABYLON.StandardMaterial("wallMat");
+            wallMat.diffuseColor = new BABYLON.Color3.White();
+            mesh.material = wallMat;
           }
         );
 
@@ -119,6 +122,9 @@
         );
         ground.checkCollisions = true;
         ground.freezeWorldMatrix();
+        const groundMat = new BABYLON.StandardMaterial("groundMat");
+        groundMat.diffuseColor = new BABYLON.Color3.Gray();
+        ground.material = groundMat;
 
         elementLoader("Quadrupole", lattice, scene);
         elementLoader("Sbend", lattice, scene);
@@ -136,43 +142,38 @@
         var grid = new BABYLON.GUI.Grid();
         advancedTexture.addControl(grid);
 
-        grid.addColumnDefinition(0.9);
+        grid.addColumnDefinition(225, true);
+        grid.addColumnDefinition(225, true);
+        grid.addColumnDefinition(1);
         grid.addColumnDefinition(250, true);
-        grid.addRowDefinition(0.9);
-        grid.addRowDefinition(100, true);
+        grid.addColumnDefinition(250, true);
+        grid.addRowDefinition(200, true);
+        grid.addRowDefinition(1);
+        grid.addRowDefinition(200, true);
 
         var rect = new BABYLON.GUI.Rectangle();
-        // rect.background = "black";
         rect.thickness = 0;
         grid.addControl(rect, 0, 2);
-
-        // var rect = new BABYLON.GUI.Rectangle();
-        // rect.background = "blue";
-        // rect.thickness = 0;
-        // grid.addControl(rect, 2, 0);
-
-        var rect = new BABYLON.GUI.Rectangle();
-        // rect.background = "black";
-        rect.thickness = 0;
-        grid.addControl(rect, 2, 2);
 
         text1 = new BABYLON.GUI.TextBlock();
         text1.text = "";
         text1.color = "red";
         text1.left = "0%";
-        text1.top = "-43%%";
+        text1.top = "-43%";
+        text1.fontSize = "30";
+        text1.fontWeight = "bold";
         advancedTexture.addControl(text1);
 
-        var buttonPanel = new BABYLON.GUI.StackPanel();
-        buttonPanel.width = "250px";
-        grid.addControl(buttonPanel, 0, 2);
-        
+        var buttonPanel1 = new BABYLON.GUI.StackPanel();
+        buttonPanel1.width = "250px";
+        grid.addControl(buttonPanel1, 0, 0);
+
         //View Button Header
         var buttonHeader = new BABYLON.GUI.TextBlock();
         buttonHeader.text = "View Mode";
         buttonHeader.height = "40px";
-        buttonHeader.color = "black";
-        buttonPanel.addControl(buttonHeader);
+        buttonHeader.color = "red";
+        buttonPanel1.addControl(buttonHeader);
 
         //BUTTON 1
         var button1 = BABYLON.GUI.Button.CreateSimpleButton(
@@ -185,7 +186,7 @@
         button1.color = "white";
         button1.cornerRadius = 20;
         button1.background = "green";
-        buttonPanel.addControl(button1);
+        buttonPanel1.addControl(button1);
 
         //Button 2
         var button2 = BABYLON.GUI.Button.CreateSimpleButton(
@@ -198,7 +199,7 @@
         button2.color = "white";
         button2.cornerRadius = 20;
         button2.background = "red";
-        buttonPanel.addControl(button2);
+        buttonPanel1.addControl(button2);
 
         //Button 3
         var button3 = BABYLON.GUI.Button.CreateSimpleButton(
@@ -211,19 +212,26 @@
         button3.color = "white";
         button3.cornerRadius = 20;
         button3.background = "blue";
-        buttonPanel.addControl(button3);
+        buttonPanel1.addControl(button3);
+
+        var buttonPanel2 = new BABYLON.GUI.StackPanel();
+        buttonPanel2.width = "250px";
+        grid.addControl(buttonPanel2, 0, 1);
 
         //Show Hide Button Header
         var shHeader = new BABYLON.GUI.TextBlock();
         shHeader.text = "Show/Hide";
         shHeader.height = "60px";
-        shHeader.color = "black";
-        buttonPanel.addControl(shHeader);
+        shHeader.color = "red";
+        buttonPanel2.addControl(shHeader);
+
+
+        
 
         // SLIDER
         var sliderPanel = new BABYLON.GUI.StackPanel();
         sliderPanel.width = "500px";
-        grid.addControl(sliderPanel, 2, 0);
+        grid.addControl(sliderPanel, 2, 2);
 
         var header = new BABYLON.GUI.TextBlock();
         header.text = "Y-rotation: 0 deg";
@@ -279,8 +287,7 @@
                 BABYLON.ActionManager.OnPointerOutTrigger,
                 function (ev) {
                   let inst = ev.source;
-                  text1.text =
-                    "";
+                  text1.text = "";
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(1, 1, 1);
                 }

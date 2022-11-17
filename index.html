@@ -124,8 +124,61 @@
             mesh.position.x = xshift;
             mesh.position.z = zshift;
             mesh.freezeWorldMatrix();
+            button4.onPointerUpObservable.add(function () {
+              if (mesh.isVisible) {
+                mesh.isVisible = false;
+                mesh.checkCollisions = false;
+              } else {
+                mesh.isVisible = true;
+                mesh.checkCollisions = true;
+              }
+            });
           }
         );
+
+        // var ESR = BABYLON.SceneLoader.ImportMesh(
+        //   "",
+        //   "./models/",
+        //   "ESR.babylon",
+        //   scene,
+        //   function (newMeshes) {
+        //     var mesh = newMeshes[0];
+        //     mesh.position.x = xshift;
+        //     mesh.position.z = zshift;
+        //     mesh.freezeWorldMatrix();
+        //     button5.onPointerUpObservable.add(function () {
+        //       if (mesh.isVisible) {
+        //         mesh.isVisible = false;
+        //         mesh.checkCollisions = false;
+        //       } else {
+        //         mesh.isVisible = true;
+        //         mesh.checkCollisions = true;
+        //       }
+        //     });
+        //   }
+        // );
+
+        // var RCS = BABYLON.SceneLoader.ImportMesh(
+        //   "",
+        //   "./models/",
+        //   "RCS.babylon",
+        //   scene,
+        //   function (newMeshes) {
+        //     var mesh = newMeshes[0];
+        //     mesh.position.x = xshift;
+        //     mesh.position.z = zshift;
+        //     mesh.freezeWorldMatrix();
+        //     button6.onPointerUpObservable.add(function () {
+        //       if (mesh.isVisible) {
+        //         mesh.isVisible = false;
+        //         mesh.checkCollisions = false;
+        //       } else {
+        //         mesh.isVisible = true;
+        //         mesh.checkCollisions = true;
+        //       }
+        //     });
+        //   }
+        // );
 
         var ground = BABYLON.MeshBuilder.CreateGround(
           "ground",
@@ -187,9 +240,9 @@
         button2.color = "white";
         button2.cornerRadius = 20;
         button2.background = "blue";
-        button2.left = "-40%";
+        button2.left = "-32%";
         button2.verticalAlignment = 0;
-        button2.top = "80";
+        button2.top = "20";
         advancedTexture.addControl(button2);
 
         button2.onPointerUpObservable.add(function () {
@@ -225,9 +278,9 @@
         button3.color = "white";
         button3.cornerRadius = 20;
         button3.background = "blue";
-        button3.left = "-40%";
+        button3.left = "-32%";
         button3.verticalAlignment = 0;
-        button3.top = "140";
+        button3.top = "80";
         advancedTexture.addControl(button3);
 
         button3.onPointerUpObservable.add(function () {
@@ -246,23 +299,65 @@
           flyCamera.keysLeft.push(65);
         });
 
+        var button4 = BABYLON.GUI.Button.CreateSimpleButton(
+          "but4",
+          "HSR On/Off"
+        );
+        button4.width = "150px";
+        button4.height = "40px";
+        button4.color = "black";
+        button4.cornerRadius = 20;
+        button4.background = "yellow";
+        button4.left = "-40%";
+        button4.verticalAlignment = 0;
+        button4.top = "80";
+        advancedTexture.addControl(button4);
+
+        // var button5 = BABYLON.GUI.Button.CreateSimpleButton(
+        //   "but5",
+        //   "ESR On/Off"
+        // );
+        // button5.width = "150px";
+        // button5.height = "40px";
+        // button5.color = "white";
+        // button5.cornerRadius = 20;
+        // button5.background = "blue";
+        // button5.left = "-40%";
+        // button5.verticalAlignment = 0;
+        // button5.top = "140";
+        // advancedTexture.addControl(button5);
+
+        // var button6 = BABYLON.GUI.Button.CreateSimpleButton(
+        //   "but6",
+        //   "RCS On/Off"
+        // );
+        // button6.width = "150px";
+        // button6.height = "40px";
+        // button6.color = "white";
+        // button6.cornerRadius = 20;
+        // button6.background = "red";
+        // button6.left = "-40%";
+        // button6.verticalAlignment = 0;
+        // button6.top = "200";
+        // advancedTexture.addControl(button6);
+
         
 
-        // var button4 = BABYLON.GUI.Button.CreateSimpleButton(
-        //   "but4",
+        // var button7 = BABYLON.GUI.Button.CreateSimpleButton(
+        //   "but6",
         //   "Camera: Slider Focused"
         // );
-        // button4.width = "150px";
-        // button4.height = "40px";
-        // button4.color = "white";
-        // button4.cornerRadius = 20;
-        // button4.background = "blue";
-        // button4.left = "-40%";
-        // button4.verticalAlignment = 0;
-        // button4.top = "200";
-        // advancedTexture.addControl(button4);
+        // button7.width = "150px";
+        // button7.height = "40px";
+        // button7.color = "white";
+        // button7.cornerRadius = 20;
+        // button7.background = "blue";
+        // button7.left = "-32%";
+        // button7.verticalAlignment = 0;
+        // button7.top = "140";
+        // advancedTexture.addControl(button7);
 
-        // button4.onPointerUpObservable.add(function () {
+        // button7.onPointerUpObservable.add(function () {
         //   let oldCamera = scene.cameras[0];
         //   let focusedCamera = new BABYLON.FollowCamera(
         //     "focusedCamera",

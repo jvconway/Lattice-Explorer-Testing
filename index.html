@@ -66,7 +66,7 @@
         camera.setTarget(new BABYLON.Vector3(0, 2, 1));
 
         camera.applyGravity = true;
-        camera.ellipsoid = new BABYLON.Vector3(2, 1, 2);
+        camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
         // Enable Collisions
         scene.collisionsEnabled = true;
         camera.checkCollisions = true;
@@ -85,8 +85,10 @@
           new BABYLON.Vector3(1, 1, 0)
         );
 
+        
         xshift = 2.5;
-        zshift = -0.858;
+        zshift = -.78;
+        yrot = 0;
 
         var walls = BABYLON.SceneLoader.ImportMesh(
           "",
@@ -97,6 +99,7 @@
             var mesh = newMeshes[0];
             mesh.position.x = xshift;
             mesh.position.z = zshift;
+            mesh.rotation.y = yrot;
             mesh.freezeWorldMatrix();
             mesh.checkCollisions = true;
             const wallMat = new BABYLON.StandardMaterial("wallMat");
@@ -123,14 +126,14 @@
             var mesh = newMeshes[0];
             mesh.position.x = xshift;
             mesh.position.z = zshift;
+            mesh.rotation.y = yrot;
             mesh.freezeWorldMatrix();
+            mesh.checkCollisions = false;
             button4.onPointerUpObservable.add(function () {
               if (mesh.isVisible) {
-                mesh.isVisible = false;
-                mesh.checkCollisions = false;
+                mesh.isVisible = false;                
               } else {
-                mesh.isVisible = true;
-                mesh.checkCollisions = true;
+                mesh.isVisible = true;                
               }
             });
           }

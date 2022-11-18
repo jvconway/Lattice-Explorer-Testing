@@ -85,9 +85,8 @@
           new BABYLON.Vector3(1, 1, 0)
         );
 
-        
         xshift = 2.5;
-        zshift = -.78;
+        zshift = -0.78;
         yrot = 0;
 
         var walls = BABYLON.SceneLoader.ImportMesh(
@@ -131,9 +130,9 @@
             mesh.checkCollisions = false;
             button4.onPointerUpObservable.add(function () {
               if (mesh.isVisible) {
-                mesh.isVisible = false;                
+                mesh.isVisible = false;
               } else {
-                mesh.isVisible = true;                
+                mesh.isVisible = true;
               }
             });
           }
@@ -202,10 +201,6 @@
         elementLoader("RFcavity", lattice, scene);
         elementLoader("Solenoid", lattice, scene);
         elementLoader("E_Gun", lattice, scene);
-
-        
-
-        
 
         //  GUI
         var advancedTexture =
@@ -344,8 +339,6 @@
         // button6.top = "200";
         // advancedTexture.addControl(button6);
 
-        
-
         // var button7 = BABYLON.GUI.Button.CreateSimpleButton(
         //   "but6",
         //   "Camera: Slider Focused"
@@ -410,7 +403,23 @@
                 BABYLON.ActionManager.OnPointerOverTrigger,
                 function (ev) {
                   let inst = ev.source;
-                  text1.text = "Element Is: " + inst.item;
+                  text1.text =
+                    "Element Is: " +
+                    inst.item +
+                    "\n L = " +
+                    inst.scaling.x.toFixed(3) +
+                    "\nX: " +
+                    inst.position.z.toFixed(3) +
+                    ", Y: " +
+                    inst.position.y.toFixed(3) +
+                    ", Z: " +
+                    inst.position.x.toFixed(3) +
+                    "\n \u03B8: " +
+                    -inst.rotation.y.toFixed(3) +
+                    ", \u03C6: " +
+                    inst.rotation.z.toFixed(3) +
+                    ", \u03C8: " +
+                    inst.rotation.x.toFixed(3);
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(3, 3, 3);
                 }

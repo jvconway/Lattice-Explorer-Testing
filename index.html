@@ -243,29 +243,29 @@
         button2.top = "20";
         advancedTexture.addControl(button2);
 
-        button2.onPointerUpObservable.add(function () {
-          let oldCamera = scene.cameras[0];
-          let fpvCamera = new BABYLON.UniversalCamera(
-            "fpvCamera",
-            oldCamera.position,
-            scene
-          );
-          oldCamera.dispose();
+        // button2.onPointerUpObservable.add(function () {
+        //   let oldCamera = scene.cameras[0];
+        //   let fpvCamera = new BABYLON.UniversalCamera(
+        //     "fpvCamera",
+        //     oldCamera.position,
+        //     scene
+        //   );
+        //   oldCamera.dispose();
 
-          fpvCamera.attachControl(canvas, true);
-          fpvCamera.applyGravity = true;
-          fpvCamera.ellipsoid = new BABYLON.Vector3(2, 1, 2);
-          // Enable Collisions
-          scene.collisionsEnabled = true;
-          fpvCamera.checkCollisions = true;
-          fpvCamera.inertia = 0.55;
-          // camera.speed = 0.8;
-          //Controls  WASD
-          fpvCamera.keysUp.push(87);
-          fpvCamera.keysDown.push(83);
-          fpvCamera.keysRight.push(68);
-          fpvCamera.keysLeft.push(65);
-        });
+        //   fpvCamera.attachControl(canvas, true);
+        //   fpvCamera.applyGravity = true;
+        //   fpvCamera.ellipsoid = new BABYLON.Vector3(2, 1, 2);
+        //   // Enable Collisions
+        //   scene.collisionsEnabled = true;
+        //   fpvCamera.checkCollisions = true;
+        //   fpvCamera.inertia = 0.55;
+        //   // camera.speed = 0.8;
+        //   //Controls  WASD
+        //   fpvCamera.keysUp.push(87);
+        //   fpvCamera.keysDown.push(83);
+        //   fpvCamera.keysRight.push(68);
+        //   fpvCamera.keysLeft.push(65);
+        // });
 
         var button3 = BABYLON.GUI.Button.CreateSimpleButton(
           "but3",
@@ -339,48 +339,113 @@
         // button6.top = "200";
         // advancedTexture.addControl(button6);
 
-        // var button7 = BABYLON.GUI.Button.CreateSimpleButton(
-        //   "but6",
-        //   "Camera: Slider Focused"
-        // );
-        // button7.width = "150px";
-        // button7.height = "40px";
-        // button7.color = "white";
-        // button7.cornerRadius = 20;
-        // button7.background = "blue";
-        // button7.left = "-32%";
-        // button7.verticalAlignment = 0;
-        // button7.top = "140";
-        // advancedTexture.addControl(button7);
+        var cameraFocus = "None";
 
-        // button7.onPointerUpObservable.add(function () {
-        //   let oldCamera = scene.cameras[0];
-        //   let focusedCamera = new BABYLON.FollowCamera(
-        //     "focusedCamera",
-        //     new BABYLON.Vector3(242, 2, -50),
-        //     scene
-        //   );
-        //   oldCamera.dispose();
-        //   focusedCamera.attachControl(canvas, true);
-        //   focusedCamera.target = targetElement;
-        // });
+        var button7 = BABYLON.GUI.Button.CreateSimpleButton(
+          "but6",
+          "Camera: Slider Focused"
+        );
+        button7.width = "150px";
+        button7.height = "40px";
+        button7.color = "white";
+        button7.cornerRadius = 20;
+        button7.background = "blue";
+        button7.left = "40%";
+        button7.verticalAlignment = 0;
+        button7.top = "140";
+        advancedTexture.addControl(button7);
 
-        // var slider = new BABYLON.GUI.Slider();
-        // slider.minimum = 1;
-        // slider.maximum = 100;
-        // slider.value = 0;
-        // slider.height = "20px";
-        // slider.width = "600px";
-        // slider.verticalAlignment = 1;
-        // slider.top = "-50";
-        // // slider.onValueChangedObservable.add(function (value) {
-        // //   header.text =
-        // //     "Y-rotation: " + (BABYLON.Tools.ToDegrees(value) | 0) + " deg";
-        // //   if (skull) {
-        // //     skull.rotation.y = value;
-        // //   }
-        // // });
-        // advancedTexture.addControl(slider);
+        button7.onPointerUpObservable.add(function () {
+          // let oldCamera = scene.cameras[0];
+          // let focusCamera = new BABYLON.ArcRotateCamera(
+          //   "focusCamera",
+          //   0,
+          //   0,
+          //   10,
+          //   new BABYLON.Vector3(8, 1.27, 0),
+          //   scene
+          // );
+          // oldCamera.dispose();
+
+          // focusCamera.attachControl(canvas, true);
+
+          cameraFocus = "Elements";
+        });
+
+        var button8 = BABYLON.GUI.Button.CreateSimpleButton(
+          "but6",
+          "Camera: Bunch Focused"
+        );
+        button8.width = "150px";
+        button8.height = "40px";
+        button8.color = "white";
+        button8.cornerRadius = 20;
+        button8.background = "blue";
+        button8.left = "40%";
+        button8.verticalAlignment = 0;
+        button8.top = "200";
+        advancedTexture.addControl(button8);
+
+        button8.onPointerUpObservable.add(function () {
+          bunchOn = true;
+          cameraFocus = "Bunch";
+        });
+
+        var slider = new BABYLON.GUI.Slider();
+        slider.minimum = 1;
+        slider.maximum = lattice.length - 1;
+        slider.value = 0;
+        slider.height = "20px";
+        slider.width = "600px";
+        slider.verticalAlignment = 1;
+        slider.top = "-50";
+        slider.onValueChangedObservable.add(function (value) {
+          element = value.toFixed(0);
+
+          if (cameraFocus == "Elements") {
+            text1.text =
+              "Element Is: " +
+              lattice[element][1] +
+              "\n L = " +
+              lattice[element][5].toFixed(2) +
+              "\nS: " +
+              lattice[element][2].toFixed(2);
+            let oldCamera = scene.cameras[0];
+            let focusCamera = new BABYLON.ArcRotateCamera(
+              "focusCamera",
+              (-3 * 3.14) / 4,
+              1.3,
+              7,
+              new BABYLON.Vector3(lattice[element][2], 1.27, 0),
+              scene
+            );
+            oldCamera.dispose();
+            focusCamera.attachControl(canvas, true);
+          } else if (cameraFocus == "Bunch") {
+            text1.text =
+              "Element Is: " +
+              lattice[element][1] +
+              "\n L = " +
+              lattice[element][5].toFixed(2) +
+              "\nS: " +
+              lattice[element][2].toFixed(2);
+            let oldCamera = scene.cameras[0];
+            let focusCamera = new BABYLON.ArcRotateCamera(
+              "focusCamera",
+              (-3 * 3.14) / 4,
+              3.14 / 4,
+              10,
+              new BABYLON.Vector3(lattice[element][2], 1.27, 0),
+              scene
+            );
+            oldCamera.dispose();
+            focusCamera.attachControl(canvas, true);
+          } else {
+          }
+        });
+        advancedTexture.addControl(slider);
+        // console.log(scene.meshes);
+        // scene.meshes[0].visibility = 0.5;
 
         return scene;
       };

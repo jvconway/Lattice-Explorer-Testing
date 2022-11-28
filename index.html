@@ -23,6 +23,7 @@
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
     <!-- <script src="./scripts/papaparse.js"></script> -->
     <script src="./lattice.js"></script>
+    <script src="./cameras.js"></script>
 
     <script></script>
   </head>
@@ -243,15 +244,17 @@
         button2.top = "20";
         advancedTexture.addControl(button2);
         button2.onPointerUpObservable.add(function () {
+          console.log("FPV Camera");
+          let oldCamera = scene.cameras[0];
           const camera = new BABYLON.UniversalCamera(
             "camera",
-            new BABYLON.Vector3(242, 2, -50),
+            oldCamera.position,
             scene
           );
 
           camera.attachControl(canvas, true);
           camera.setTarget(new BABYLON.Vector3(0, 2, 1));
-
+          oldCamera.dispose();
           camera.applyGravity = true;
           camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
           // Enable Collisions
@@ -305,6 +308,7 @@
         advancedTexture.addControl(button3);
 
         button3.onPointerUpObservable.add(function () {
+          console.log("Fly Camera");
           let oldCamera = scene.cameras[0];
           let flyCamera = new BABYLON.UniversalCamera(
             "flyCamera",
@@ -424,9 +428,10 @@
         slider.top = "-50";
         slider.onValueChangedObservable.add(function (value) {
           element = value.toFixed(0);
-          var eleLen = 1.27+lattice[element][1];
+          var eleLen = 1.27 + lattice[element][1];
 
           if (cameraFocus == "Elements") {
+            console.log("Elements Focus Camera");
             text1.text =
               "Element Is: " +
               lattice.item +

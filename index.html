@@ -519,15 +519,77 @@
             mesh.instancedBuffers.color = new BABYLON.Color4(1, 1, 1, 1);
             mesh.isVisible = false;
 
+            // let actionManager = new BABYLON.ActionManager(scene);
+            // actionManager.registerAction(
+            //   new BABYLON.ExecuteCodeAction(
+            //     BABYLON.ActionManager.OnPointerOverTrigger,
+            //     function (ev) {
+            //       let inst = ev.source;
+            //       text1.text =
+            //         "Element Is: " +
+            //         inst.item +
+            //         "\n L = " +
+            //         inst.scaling.x.toFixed(3) +
+            //         "\nX: " +
+            //         inst.position.z.toFixed(3) +
+            //         ", Y: " +
+            //         inst.position.y.toFixed(3) +
+            //         ", Z: " +
+            //         inst.position.x.toFixed(3) +
+            //         "\n \u03B8: " +
+            //         -inst.rotation.y.toFixed(3) +
+            //         ", \u03C6: " +
+            //         inst.rotation.z.toFixed(3) +
+            //         ", \u03C8: " +
+            //         inst.rotation.x.toFixed(3);
+            //       if (!inst.isMarked)
+            //         inst.instancedBuffers.color = new BABYLON.Color4(3, 3, 3);
+            //     }
+            //   )
+            // );
+            // actionManager.registerAction(
+            //   new BABYLON.ExecuteCodeAction(
+            //     BABYLON.ActionManager.OnPointerOutTrigger,
+            //     function (ev) {
+            //       let inst = ev.source;
+            //       text1.text = "";
+            //       if (!inst.isMarked)
+            //         inst.instancedBuffers.color = new BABYLON.Color4(1, 1, 1);
+            //     }
+            //   )
+            // );
+            // actionManager.registerAction(
+            //   new BABYLON.ExecuteCodeAction(
+            //     BABYLON.ActionManager.OnPickTrigger,
+            //     function (ev) {
+            //       let inst = ev.source;
+            //     }
+            //   )
+            // );
+            var advancedTexture =
+              BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
             let actionManager = new BABYLON.ActionManager(scene);
             actionManager.registerAction(
               new BABYLON.ExecuteCodeAction(
-                BABYLON.ActionManager.OnPointerOverTrigger,
+                BABYLON.ActionManager.OnPickTrigger,
                 function (ev) {
+                  console.log(ev.meshUnderPointer.name);
                   let inst = ev.source;
-                  text1.text =
+
+                  var rect1 = new BABYLON.GUI.Rectangle();
+                  rect1.width = "400px";
+                  rect1.height = "120px";
+                  rect1.cornerRadius = 20;
+                  rect1.color = "Orange";
+                  rect1.thickness = 4;
+                  rect1.background = "green";
+                  advancedTexture.addControl(rect1);
+                  var label = new BABYLON.GUI.TextBlock();
+                  label.text =
                     "Element Is: " +
                     inst.item +
+                    "  #" +
+                    inst.ele_num +
                     "\n L = " +
                     inst.scaling.x.toFixed(3) +
                     "\nX: " +
@@ -542,6 +604,17 @@
                     inst.rotation.z.toFixed(3) +
                     ", \u03C8: " +
                     inst.rotation.x.toFixed(3);
+                  rect1.addControl(label);
+                  rect1.linkWithMesh(inst);
+                  rect1.linkOffsetY = -125;
+                  var line = new BABYLON.GUI.Line();
+                  line.lineWidth = 4;
+                  line.color = "Orange";
+                  line.y2 = 60;
+                  line.linkOffsetY = -20;
+                  advancedTexture.addControl(line);
+                  line.linkWithMesh(inst);
+                  line.connectedControl = rect1;
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(3, 3, 3);
                 }
@@ -552,24 +625,24 @@
                 BABYLON.ActionManager.OnPointerOutTrigger,
                 function (ev) {
                   let inst = ev.source;
-                  text1.text = "";
+                  // advancedTexture.removeControl(rect1);
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(1, 1, 1);
                 }
               )
             );
-            actionManager.registerAction(
-              new BABYLON.ExecuteCodeAction(
-                BABYLON.ActionManager.OnPickTrigger,
-                function (ev) {
-                  let inst = ev.source;
-                }
-              )
-            );
+            // actionManager.registerAction(
+            //   new BABYLON.ExecuteCodeAction(
+            //     BABYLON.ActionManager.OnPickTrigger,
+            //     function (ev) {
+            //       let inst = ev.source;
+            //     }
+            //   )
+            // );
 
             for (var index = 0; index < lattice.length; index++) {
               if (lattice[index].key == type) {
-                var newInstance = mesh.createInstance("i" + index);
+                var newInstance = mesh.createInstance(lattice[index].ix_ele);
 
                 newInstance.position.x = lattice[index].z;
                 newInstance.position.y = lattice[index].y;
@@ -580,6 +653,8 @@
                 newInstance.scaling.x = lattice[index].L;
                 newInstance.actionManager = actionManager;
                 newInstance.item = lattice[index].ele_name;
+                newInstance.ele_num = lattice[index].ix_ele;
+                newInstance.type = type;
                 newInstance.freezeWorldMatrix();
               }
             }

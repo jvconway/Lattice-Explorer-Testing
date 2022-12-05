@@ -22,7 +22,8 @@
     <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
     <!-- <script src="./scripts/papaparse.js"></script> -->
-    <script src="./lattices/lattice.js"></script>
+    <!-- <script src="./lattices/lattice.js"></script> -->
+    <script src="./lattices/cooler2.json"></script>
 
     <script></script>
   </head>
@@ -193,14 +194,14 @@
         groundMat.diffuseColor = new BABYLON.Color3.Gray();
         ground.material = groundMat;
 
-        elementLoader("Quadrupole", lattice, scene);
-        elementLoader("Sbend", lattice, scene);
-        elementLoader("Drift", lattice, scene);
-        elementLoader("Pipe", lattice, scene);
-        elementLoader("Lcavity", lattice, scene);
-        elementLoader("RFcavity", lattice, scene);
-        elementLoader("Solenoid", lattice, scene);
-        elementLoader("E_Gun", lattice, scene);
+        elementLoader("Quadrupole", cooler2, scene);
+        elementLoader("Sbend", cooler2, scene);
+        elementLoader("Drift", cooler2, scene);
+        elementLoader("Pipe", cooler2, scene);
+        elementLoader("Lcavity", cooler2, scene);
+        elementLoader("RFcavity", cooler2, scene);
+        elementLoader("Solenoid", cooler2, scene);
+        elementLoader("E_Gun", cooler2, scene);
 
         //  GUI
         var advancedTexture =
@@ -419,7 +420,7 @@
 
         var slider = new BABYLON.GUI.Slider();
         slider.minimum = 1;
-        slider.maximum = lattice.length - 1;
+        slider.maximum = cooler2.length - 1;
         slider.value = 0;
         slider.height = "20px";
         slider.width = "600px";
@@ -567,18 +568,18 @@
             );
 
             for (var index = 0; index < lattice.length; index++) {
-              if (lattice[index][6] == type) {
+              if (lattice[index].key == type) {
                 var newInstance = mesh.createInstance("i" + index);
 
-                newInstance.position.x = lattice[index][2];
-                newInstance.position.y = lattice[index][1] + 1.27;
-                newInstance.position.z = lattice[index][0];
-                newInstance.rotation.x = lattice[index][5];
-                newInstance.rotation.y = -lattice[index][3];
-                newInstance.rotation.z = lattice[index][4];
-                newInstance.scaling.x = lattice[index][7];
+                newInstance.position.x = lattice[index].z;
+                newInstance.position.y = lattice[index].y;
+                newInstance.position.z = lattice[index].x;
+                newInstance.rotation.x = lattice[index].psi;
+                newInstance.rotation.y = -lattice[index].theta;
+                newInstance.rotation.z = lattice[index].phi;
+                newInstance.scaling.x = lattice[index].L;
                 newInstance.actionManager = actionManager;
-                newInstance.item = lattice[index][8];
+                newInstance.item = lattice[index].ele_name;
                 newInstance.freezeWorldMatrix();
               }
             }

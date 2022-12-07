@@ -86,8 +86,8 @@
           new BABYLON.Vector3(1, 1, 0)
         );
 
-        xshift = 2.5;
-        zshift = -0.78;
+        xshift = 0 //2.5;
+        zshift = 0 //-0.78;
         yrot = 0;
 
         var walls = BABYLON.SceneLoader.ImportMesh(
@@ -100,6 +100,7 @@
             mesh.position.x = xshift;
             mesh.position.z = zshift;
             mesh.rotation.y = yrot;
+            mesh.position.y = 0.01;
             mesh.freezeWorldMatrix();
             mesh.checkCollisions = true;
             const wallMat = new BABYLON.StandardMaterial("wallMat");
@@ -191,7 +192,7 @@
         ground.checkCollisions = true;
         ground.freezeWorldMatrix();
         const groundMat = new BABYLON.StandardMaterial("groundMat");
-        groundMat.diffuseColor = new BABYLON.Color3.Gray();
+        groundMat.diffuseColor = new BABYLON.Color3.Green();
         ground.material = groundMat;
 
         elementLoader("Quadrupole", cooler2, scene);

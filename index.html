@@ -86,8 +86,8 @@
           new BABYLON.Vector3(1, 1, 0)
         );
 
-        xshift = 0 //2.5;
-        zshift = 0 //-0.78;
+        xshift = 0; //2.5;
+        zshift = 0; //-0.78;
         yrot = 0;
 
         var walls = BABYLON.SceneLoader.ImportMesh(
@@ -618,6 +618,10 @@
                   line.connectedControl = rect1;
                   if (!inst.isMarked)
                     inst.instancedBuffers.color = new BABYLON.Color4(3, 3, 3);
+                  rect1.onPointerUpObservable.add(function () {
+                    rect1.dispose();
+                    line.dispose();
+                  });
                 }
               )
             );
